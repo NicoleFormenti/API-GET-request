@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Earthquakes</title>
+    <style>
+        p   {
+            font-weight: bolder;
+            text-decoration: underline;
+        }
+        h1  {
+            color: crimson;
+        }
+        h2  {
+            color: coral;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Current Earthquakes</h1>
+    <h2>Earthquake 1</h2>
+    <p>Magnitude:</p>
+    <div class="earthquake_magnitude"></div>
+    <p>Place:</p>
+    <div class="earthquake_place"></div>
+    
+    
+
+    <script>
+        // make a GET request from https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson
+        // list the names and locations of the earthquakes I chose 
+        const mag = document.querySelector('.earthquake_magnitude');
+        const pl = document.querySelector('.earthquake_place');
+        
+        fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson')
+        .then((res => res.json()))
+        .then((obj) => {
+            console.log(obj.features);
+            const properties = obj.features;
+
+            for (let i = 0; i < properties.length; i++) {
+                output(properties[i]);
+                display.innerHTML = properties;  // this displays only the values for the first earthquake
+            }
+        });
+
+        function output(item) {
+           const magnitude = `<div>${item.properties.mag}</div>`;
+           mag.insertAdjacentHTML('beforeend', magnitude);
+           const place = `<div>${item.properties.place}</div>`;
+           pl.insertAdjacentHTML('beforeend', place);
+        }
+      
+        
+    </script>
+</body>
+</html>
